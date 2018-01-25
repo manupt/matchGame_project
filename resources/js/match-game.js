@@ -1,6 +1,7 @@
 $(document).ready (function() {
 
   MatchGame.renderCards ();
+
 });
 
 
@@ -51,41 +52,50 @@ var MatchGame = {};
 */
 MatchGame.renderCards = function(cardValues, $game) {
 
-  $('#game').empty();
 
-  $('#game').data('flippedCards', []);
+  var colors = [
+    'hsl(25, 85%, 65%)',
+    'hsl(55, 85%, 65%)',
+    'hsl(90, 85%, 65%)',
+    'hsl(160, 85%, 65%)',
+    'hsl(220, 85%, 65%)',
+    'hsl(265, 85%, 65%)',
+    'hsl(310, 85%, 65%)',
+    'hsl(360, 85%, 65%)'];
 
-  var colors = ['hsl(25, 85%, 65%)', 'hsl(55, 85%, 65%)', 'hsl(90, 85%, 65%)', 'hsl(160, 85%, 65%)', 'hsl(220, 85%, 65&)', 'hsl(265, 85%, 65%)', 'hsl(310, 85%, 65%)', 'hsl(360, 85%, 65%)'];
+  $game.empty();
 
-//Loop
-  for (var x =0; x<=cardValues.length; x++){
+  $game.data('flippedCards', []);
 
-    var $card = $('<div class="col-xs-3 card"></div>');
-    $card.data('value', x);
+  for (var valueIndex = 0; valueIndex < cardValues.length; valueIndex++) {
+    var value = cardValues[valueIndex];
+    var color = colors[value - 1];
+    var data = {
+      value: value,
+      color: color,
+      isFlipped: false
+    };
+    var $cardElement = $('<div class="col-xs-3 card"></div>');
+    $cardElement.data(data);
+    $game.append($cardElement);
   }
-  //Flip or no Flip
-    $card.click(function() {
 
-        if( $(this).$card) {
-          $card.data(true);
-        }else{
-            $card.data(false);
-        }
-    });
-
-  //Color data
-       while (x<=cardValues.length) {
-        x = cardValues.length - 1;
-        $card.data(colors[x]);
-    }
-
-    $('#game').append($card);
+  $('.card').click(function() {
+    MatchGame.flipCard($(this), $('#game'));
+  });
 };
-/*
-  Flips over a given card and checks to see if two cards are flipped over.
-  Updates styles on flipped cards depending whether they are a match or not.
- */
+
 
 MatchGame.flipCard = function($card, $game) {
 
-};
+  $('.card').click(function() {
+
+  if ($(this).isFlipped = true) {
+    return;
+   } else {
+        $(this).css('background-color', 'color');
+        $(this).text('value');
+        $(this).isFlipped.data(true);
+    }
+  });
+  }
