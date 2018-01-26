@@ -1,11 +1,17 @@
-$(document).ready (function() {
+var MatchGame = {};
 
-  MatchGame.renderCards ();
-
+$(document).ready(function() {
+  var $game = $('#game');
+  var values = MatchGame.generateCardValues();
+  MatchGame.renderCards(values, $game);
 });
 
-
-var MatchGame = {};
+ /*1 - Because its wrapped within $(document).ready(function()  that means that the code
+     will run once the Document Object Model is loaded
+ 2 - Once loaded, then $game  will use the jQuery selector $  to select an element with the id game
+ 3 - It will then call the renderGame method of the MatchGame object (which defined in the line
+     above (document).ready()  and start the game
+ */
 
 /*
   Sets up a new game after HTML document has loaded.
@@ -17,34 +23,47 @@ var MatchGame = {};
  */
  MatchGame.generateCardValues = function () {
 
-     var array = [];
+      var cardValues = [];
+     // var array = [];
+     // for ( var b =1; b<=8; b++) {
+     //      array.push(b);
+     //      array.push(b);
+     // }
+     // var arrayRandom = [];
+
+     var sequentialValues = [];
      for ( var b =1; b<=8; b++) {
-          array.push(b);
-          array.push(b);
+          sequentialValues.push(b);
+          sequentialValues.push(b);
      }
-     var arrayRandom = [];
+     // var arrayRandom = [];
 
-     function shuffle(array) {
+     // function shuffle(array) {
+     //
+     //   var currentIndex = array.length, temporaryValue, randomIndex;
 
-       var currentIndex = array.length, temporaryValue, randomIndex;
-
+       while (sequentialValues.length > 0) {
+         var randomIndex = Math.floor(Math.random() * sequentialValues.length);
+         var randomValue = sequentialValues.splice(randomIndex, 1)[0];
+         cardValues.push(randomValue);
+       }
    // While there remain elements to shuffle...
-       while (0 !== currentIndex) {
-
-     // Pick a remaining element...
-       randomIndex = Math.floor(Math.random() * currentIndex);
-       currentIndex -= 1;
-
-     // And swap it with the current element.
-       temporaryValue = array[currentIndex];
-       array[currentIndex] = array[randomIndex];
-       array[randomIndex] = temporaryValue;
+   //     while (0 !== currentIndex) {
+   //
+   //   // Pick a remaining element...
+   //     randomIndex = Math.floor(Math.random() * currentIndex);
+   //     currentIndex -= 1;
+   //
+   //   // And swap it with the current element.
+   //     temporaryValue = array[currentIndex];
+   //     array[currentIndex] = array[randomIndex];
+   //     array[randomIndex] = temporaryValue;
+   // }
+   return cardValues;
    }
-   return array;
-   }
-     arrayRandom = shuffle(array);
-     return arrayRandom;
- }
+     // arrayRandom = shuffle(array);
+     // return arrayRandom;
+
 
 /*
   Converts card values to jQuery card objects and adds them to the supplied game
@@ -52,6 +71,12 @@ var MatchGame = {};
 */
 MatchGame.renderCards = function(cardValues, $game) {
 
+  // var $game = [];
+
+  $game.empty();
+
+
+// var cardValues = MatchGame.generateCardValues ();
 
   var colors = [
     'hsl(25, 85%, 65%)',
@@ -63,7 +88,7 @@ MatchGame.renderCards = function(cardValues, $game) {
     'hsl(310, 85%, 65%)',
     'hsl(360, 85%, 65%)'];
 
-  $game.empty();
+
 
   $game.data('flippedCards', []);
 
@@ -86,16 +111,17 @@ MatchGame.renderCards = function(cardValues, $game) {
 };
 
 
-MatchGame.flipCard = function($card, $game) {
-
-  $('.card').click(function() {
-
-  if ($(this).isFlipped = true) {
-    return;
-   } else {
-        $(this).css('background-color', 'color');
-        $(this).text('value');
-        $(this).isFlipped.data(true);
-    }
-  });
-  }
+// MatchGame.flipCard = function($card, $game) {
+//
+//
+//   $('#game').click(function() {
+//
+//   if $game.isFlipped === true) {
+//     return;
+//    } else {
+//         $(this).css('background-color', 'color');
+//         $(this).text('value');
+//         $(this).isFlipped.data(true);
+//     }
+//   });
+//   }
