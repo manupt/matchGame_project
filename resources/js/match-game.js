@@ -1,3 +1,7 @@
+// HTML does not have any objects. Jquery is a Javascript framework, it makes it easier to
+// manipulate HTML using Javascript.
+// Objects contain data and methods that can be used to manipulate HTML markup.
+
 var MatchGame = {};
 
 $(document).ready(function() {
@@ -24,45 +28,44 @@ $(document).ready(function() {
  MatchGame.generateCardValues = function () {
 
       var cardValues = [];
-     // var array = [];
-     // for ( var b =1; b<=8; b++) {
-     //      array.push(b);
-     //      array.push(b);
-     // }
-     // var arrayRandom = [];
+
 
      var sequentialValues = [];
+
      for ( var b =1; b<=8; b++) {
           sequentialValues.push(b);
           sequentialValues.push(b);
      }
-     // var arrayRandom = [];
 
-     // function shuffle(array) {
-     //
-     //   var currentIndex = array.length, temporaryValue, randomIndex;
+     while (sequentialValues.length > 0) {
+       var randomIndex = Math.floor(Math.random() * sequentialValues.length);
+       var randomValue = sequentialValues.splice(randomIndex, 1)[0];
+       cardValues.push(randomValue);
+     }
+     return cardValues;
+     }
 
-       while (sequentialValues.length > 0) {
-         var randomIndex = Math.floor(Math.random() * sequentialValues.length);
-         var randomValue = sequentialValues.splice(randomIndex, 1)[0];
-         cardValues.push(randomValue);
-       }
-   // While there remain elements to shuffle...
+
+  // function shuffle(sequentialValues) {
+  //
+   // var currentIndex = array.length, temporaryValue, randomIndex;
+
+   // /*While there remain elements to shuffle..*/
    //     while (0 !== currentIndex) {
    //
-   //   // Pick a remaining element...
+   //   /*Pick a remaining element...*/
    //     randomIndex = Math.floor(Math.random() * currentIndex);
    //     currentIndex -= 1;
    //
-   //   // And swap it with the current element.
-   //     temporaryValue = array[currentIndex];
-   //     array[currentIndex] = array[randomIndex];
-   //     array[randomIndex] = temporaryValue;
+   //   /*And swap it with the current element.*/
+   //     temporaryValue = sequentialValues[currentIndex];
+   //     sequentialValues[currentIndex] = sequentialValues[randomIndex];
+   //     sequentialValues[randomIndex] = temporaryValue;
+
+   //     cardValues = shuffle(sequentialValues);
    // }
-   return cardValues;
-   }
-     // arrayRandom = shuffle(array);
-     // return arrayRandom;
+  //   return cardValues;
+  // }
 
 
 /*
@@ -71,12 +74,10 @@ $(document).ready(function() {
 */
 MatchGame.renderCards = function(cardValues, $game) {
 
-  // var $game = [];
-
   $game.empty();
-
-
-// var cardValues = MatchGame.generateCardValues ();
+// The object needs to be emptied because everytime you click a card the object will
+// manipulate the html in some way, sometime changing it. When you go to select another
+// card you want to select html in that card not a previous card. so thats why you empty the object .
 
   var colors = [
     'hsl(25, 85%, 65%)',
@@ -89,7 +90,9 @@ MatchGame.renderCards = function(cardValues, $game) {
     'hsl(360, 85%, 65%)'];
 
 
-
+// To start, your game jQuery object will need information about which cards are flipped.
+//  At the top of the .renderCards() method, add a data attribute to $game which keeps track
+//  of the flipped cards. This should initialize — be initially set equal — to an empty array.
   $game.data('flippedCards', []);
 
   for (var valueIndex = 0; valueIndex < cardValues.length; valueIndex++) {
@@ -111,17 +114,12 @@ MatchGame.renderCards = function(cardValues, $game) {
 };
 
 
-// MatchGame.flipCard = function($card, $game) {
-//
-//
-//   $('#game').click(function() {
-//
-//   if $game.isFlipped === true) {
-//     return;
-//    } else {
-//         $(this).css('background-color', 'color');
-//         $(this).text('value');
-//         $(this).isFlipped.data(true);
-//     }
-//   });
-//   }
+MatchGame.flipCard = function($card, $game) {
+
+
+
+
+
+
+
+  }
