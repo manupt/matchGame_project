@@ -108,9 +108,9 @@ card you want to select html in that card not a previous card. so thats why you 
       color: color,
       isFlipped: false // Add a data attribute to the jQuery card object representing whether or not the card has been flipped. This value should default to false.
     };
-    var $cardElement = $('<div class="col-xs-3 card"></div>'); // Inside the loop, create a jQuery object for a new card. This object should be instantiated — created — with the same HTML code you used to render a card in your index.html file
-    $cardElement.data(data);  // Add all data to the jQuery card object
-    $game.append($cardElement); // Append the card object to $game.
+    var $card = $('<div class="col-xs-3 card"></div>'); // Inside the loop, create a jQuery object for a new card. This object should be instantiated — created — with the same HTML code you used to render a card in your index.html file
+    $card.data(data);  // Add all data to the jQuery card object
+    $game.append($card); // Append the card object to $game.
   }
 
   /* You can now generate the HTML for a game. You will use your .generateCardValues() and .renderCards() methods
@@ -128,10 +128,26 @@ card you want to select html in that card not a previous card. so thats why you 
 
 MatchGame.flipCard = function($card, $game) {
 
-    if ( $game.data('isFlipped') === true) {
+    if ( $card.data('isFlipped') === true) {
       return;
     } else {
-      $game.css('background-color', 'color');
+      $card.css('background-color', $card.data('color'));
+      $card.text($card.data('value'));
+      $card.data('isFlipped', true);
+    }
+
+   $game.data('flippedCards').push($card);
+
+    if ($game.data('flippedCards').length === 2) {
+
+      if ($game.data('flippedCards')[0] === $game.data('flippedCards')[1] ) {
+          $game.data('flippedCards').css('background-color', rgb(153, 153, 153));
+          $game.data('flippedCards').css('color', rgb(204, 204, 204));
+      }else{
+        $game.data('flippedCards').css('background-color', rgb(32, 64, 89));
+        $game.data('flippedCards').text('');
+        $game.data('flippedCards').data('isFlipped', false);
+      }
     }
 
 
