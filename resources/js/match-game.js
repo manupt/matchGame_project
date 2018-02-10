@@ -119,6 +119,7 @@ card you want to select html in that card not a previous card. so thats why you 
   callback function. Make sure to pass the .renderCards() method an array of randomly-ordered card values and a jQuery object
   containing our #game HTML element, created by MatchGame.generateCardValues(), as parameters.*/
 
+//Event listener
   $('.card').click(function() {
     MatchGame.flipCard($(this), $('#game'));
   });
@@ -128,30 +129,47 @@ card you want to select html in that card not a previous card. so thats why you 
 
 MatchGame.flipCard = function($card, $game) {
 
-    if ( $card.data('isFlipped') === true) {
-      return;
+    if ( $card.data('isFlipped')) { //Start the method by checking if the selected card is already flipped
+      return;  // If the card has already been flipped, return from the function so the function stops executing.
+    } else {  // If the card has not been flipped, modify it so it appears flipped over.
+      $card.css('background-color', $card.data('color')); // Change the background color of the card to be the color stored on the card
+      $card.text($card.data('value')); // change the text of the card to be the value stored on the card.
+      $card.data('isFlipped', true); // update the data on the card to indicate that it has been flipped over.
+    }
+
+   var flippedCards = $game.data('flippedCards');
+   flippedCards.push($card); //  After you finish styling the flipped card in .flipCard(), push the card on to the end of the game object's array of flipped cards.
+
+   if (flippedCards.length === 2) {
+
+      if ( flippedCards[0].data('value') === flippedCards[1].data('value') ) {
+
+         var matchCard = {
+           backgroundColor:'rgb(153, 153, 153)',
+           color: 'rgb(204, 204, 204)',
+         };
+         flippedCards[0].css(matchCard);
+         flippedCards[1].css(matchCard);
     } else {
-      $card.css('background-color', $card.data('color'));
-      $card.text($card.data('value'));
-      $card.data('isFlipped', true);
-    }
 
-   $game.data('flippedCards').push($card);
+      var card1 = flippedCards[0];
+      var card2 = flippedCards[1];
 
-    if ($game.data('flippedCards').length === 2) {
+   window.setTimeout(function () {
+      card1.css('background-color', 'rgb(32, 64, 86)');
+      card1.text('');
+      card1.data('isFlipped', false);
+      card2.css('background-color', 'rgb(32, 64, 86)');
+      card2.text('');
+      card2.data('isFlipped', false);
+    }, 400); }
 
-      if ($game.data('flippedCards')[0] === $game.data('flippedCards')[1] ) {
-          $game.data('flippedCards').css('background-color', rgb(153, 153, 153));
-          $game.data('flippedCards').css('color', rgb(204, 204, 204));
-      }else{
-        $game.data('flippedCards').css('background-color', rgb(32, 64, 89));
-        $game.data('flippedCards').text('');
-        $game.data('flippedCards').data('isFlipped', false);
-      }
-    }
-
-
-
-
-
-  }
+   $game.data('flippedCards', []);
+ }
+};
+  /* Add an event listener at the end of .renderCards(). This listener should call .flipCard() whenever a card is clicked.
+     Make sure to call .flipCard() with jQuery objects containing the card that was clicked and the #game element.
+     Be careful to update just the card that was clicked, and not all elements with class card.
+     It's important to create this event listener at the end of .renderCards() instead of document.ready because we can
+    only guarantee that the cards will be created at the end of .renderCards().
+     If you try to attach click handlers to elements that don't exist, they will never be created.*/
